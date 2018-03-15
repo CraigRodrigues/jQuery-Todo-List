@@ -55,8 +55,11 @@ $(document).ready(function() {
     // controls how the todos are displayed on the page
     view = {
         render: function() {
+            // clear out the html
             $('#todos').empty();
 
+            // ideally you would create the ul and then append li elements inside of that
+            // rather than having a ul that is already in your html
             todoList.todos.forEach(function(todo, index) {
                 // create li element
                 var $li = $('<li>');
