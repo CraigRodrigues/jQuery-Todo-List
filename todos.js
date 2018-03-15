@@ -84,9 +84,14 @@ $(document).ready(function() {
             // return this to allow for chaining (function returns the object its in, so you can use another method/property on it)
             return this;
         },
+        // you want listeners here to be attached to HTML elements that will not disappear or change
         initListeners: function() {
             $('#addBtn').click(handlers.addTodo);
+
+            // using event delegation you can have one listener than can hear when anything
+            // inside of it is clicked - rather than having 1 function PER todo
             $('#todos').click(handlers.deleteOrToggleTodo);
+
             $('#clearBtn').click(handlers.clearTodos);
             $('#toggleBtn').click(handlers.toggleAll);
             $(document).keypress(handlers.onEnter);
@@ -136,5 +141,6 @@ $(document).ready(function() {
         }
     }
 
+    // render the html THEN attach the event listeners
     view.render().initListeners();
 });
