@@ -43,7 +43,7 @@ $(document).ready(function() {
                 view.render();
             }
         },
-        clear: function() {
+        clearTodos: function() {
             this.todos = this.todos.filter(function(todo) {
                 return !todo.completed;
             });
@@ -67,7 +67,10 @@ $(document).ready(function() {
         deleteOrToggleTodo: function(event) {
             event.stopPropagation();
 
+            // get the target of what we clicked ($(this) is the ENTIRE ul)
             var $target = $(event.target);
+
+            // walk to DOM up to the parent to get the id (which holds the index)
             var id = $target.parent().attr('id');
 
             if ($target.hasClass('deleteBtn')) {
@@ -77,7 +80,7 @@ $(document).ready(function() {
             }
         },
         clearTodos: function(event) {
-            todoList.clear();
+            todoList.clearTodos();
         },
         toggleAll: function(event) {
             todoList.toggleAll();
