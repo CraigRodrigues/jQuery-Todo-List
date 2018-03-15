@@ -3,27 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="todos.js"></script>
 </head>
 <body>
     <header>
         <h1>My Todos</h1>
     </header>
 
-    <ul id="todos">
-        <li>Hit the gym</li>
-        <li>Lawyer Up</li>
-        <li>Pay bills</li>
-        <li>Buy eggs</li>
-        <li>Read a book</li>
-        <li>Organize office</li>
-        <li>Learn jQuery</li>
-    </ul>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            // all jQuery code goes here!
-        });
-    </script>
+    <ul id="todos"></ul>
+    <div>
+        <input id="todoInput" type="text">
+        <button id="addBtn">Add Todo</button>
+    </div>
+    <div>
+        <button id="clearBtn">Clear Todos</button>
+        <button id="toggleBtn">Toggle All</button>
+    </div>
 </body>
 </html>
