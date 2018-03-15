@@ -78,6 +78,7 @@ $(document).ready(function() {
                 $('#todos').append($li);
             });
 
+            // return this to allow for chaining (function returns the object its in, so you can use another method/property on it)
             return this;
         },
         initListeners: function() {
@@ -85,20 +86,18 @@ $(document).ready(function() {
             $('#todos').click(handlers.deleteOrToggleTodo);
             $('#clearBtn').click(handlers.clearTodos);
             $('#toggleBtn').click(handlers.toggleAll);
-    
-            $(document).keypress(function(event) {
-                if (event.which === 13) {
-                    handlers.addTodo();
-                }
-            });
+            $(document).keypress(handlers.onEnter);
 
+            // to allow for chaining
             return this;
         }
     };
 
     // event listeners
+    // by convention you would add the event parameter to handlers even
+    // if you do not use the event object in your function
     handlers = {
-        addTodo: function() {
+        addTodo: function(event) {
             var todoText = $('#todoInput').val();
 
             if (todoText) {
@@ -125,6 +124,12 @@ $(document).ready(function() {
         },
         toggleAll: function(event) {
             todoList.toggleAll();
+        },
+        onEnter: function(event) {
+            // 13 is the key number for ENTER            
+            if (event.which === 13) {
+                handlers.addTodo();
+            }
         }
     }
 
