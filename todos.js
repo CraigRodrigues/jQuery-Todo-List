@@ -86,6 +86,7 @@ $(document).ready(function() {
         },
         // you want listeners here to be attached to HTML elements that will not disappear or change
         initListeners: function() {
+            // .click is shorthand for $().on('click', function)
             $('#addBtn').click(handlers.addTodo);
 
             // using event delegation you can have one listener than can hear when anything
