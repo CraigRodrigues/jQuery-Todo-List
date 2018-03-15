@@ -52,6 +52,44 @@ $(document).ready(function() {
         }
     };
 
+    // event listeners
+    // by convention you would add the event parameter to handlers even
+    // if you do not use the event object in your function
+    handlers = {
+        addTodo: function(event) {
+            var todoText = $('#todoInput').val();
+
+            if (todoText) {
+                todoList.addTodo(todoText);
+                $('#todoInput').val('');
+            }
+        },
+        deleteOrToggleTodo: function(event) {
+            event.stopPropagation();
+
+            var $target = $(event.target);
+            var id = $target.parent().attr('id');
+
+            if ($target.hasClass('deleteBtn')) {
+                todoList.removeTodo(id);
+            } else if ($target.hasClass('todo')) {
+                todoList.toggleCompleted(id);
+            }
+        },
+        clearTodos: function(event) {
+            todoList.clear();
+        },
+        toggleAll: function(event) {
+            todoList.toggleAll();
+        },
+        onEnter: function(event) {
+            // 13 is the key number for ENTER            
+            if (event.which === 13) {
+                handlers.addTodo();
+            }
+        }
+    }
+
     // controls how the todos are displayed on the page
     view = {
         render: function() {
@@ -101,46 +139,6 @@ $(document).ready(function() {
             return this;
         }
     };
-
-    // event listeners
-    // by convention you would add the event parameter to handlers even
-    // if you do not use the event object in your function
-    handlers = {
-        addTodo: function(event) {
-            var todoText = $('#todoInput').val();
-
-            if (todoText) {
-                todoList.addTodo(todoText);
-                $('#todoInput').val('');
-            }
-        },
-        deleteOrToggleTodo: function(event) {
-            event.stopPropagation();
-
-            var id;
-            var $target = $(event.target);
-            var targetClass = $target.attr('class');
-            var id = $target.parent().attr('id');
-
-            if (targetClass === 'deleteBtn') {
-                todoList.removeTodo(id);
-            } else if (targetClass === 'todo') {
-                todoList.toggleCompleted(id);
-            }
-        },
-        clearTodos: function(event) {
-            todoList.clear();
-        },
-        toggleAll: function(event) {
-            todoList.toggleAll();
-        },
-        onEnter: function(event) {
-            // 13 is the key number for ENTER            
-            if (event.which === 13) {
-                handlers.addTodo();
-            }
-        }
-    }
 
     // render the html THEN attach the event listeners
     view.render().initListeners();
