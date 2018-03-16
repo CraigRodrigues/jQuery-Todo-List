@@ -9,19 +9,101 @@
         <h1>My Todos</h1>
     </header>
 
-    <ul id="todos">
-        <li>Hit the gym</li>
-        <li>Lawyer Up</li>
-        <li>Pay bills</li>
-        <li>Buy eggs</li>
-        <li>Read a book</li>
-        <li>Organize office</li>
-        <li>Learn jQuery</li>
-    </ul>
+    <ul id="todos"></ul>
+
+    <input id="todoInput" type="text" placeholder="Add todo">
+    <button id="addBtn">Add Todo</button>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
-        // all jQuery code goes here!
+        $(document).ready(function() {
+            var updateLocalStorage = function(todos) {
+                localStorage.setItem('todos', JSON.stringify(todos));
+            };
+
+            var retrieveTodos = function() {
+                todoList.todos = JSON.parse(localStorage.getItem('todos')) || [];
+            }
+
+            // controllers and the data
+            var todoList = {
+                todos: [],
+                addTodo: function(text) {
+                    var todo = {
+                        text: text,
+                        completed: false
+                    };
+
+                    this.todos.push(todo);
+
+                    view.render();
+                },
+                toggleCompleted: function(index) {
+                    this.todos[index].completed = !this.todos[index].completed;
+
+                    view.render();
+                },
+                removeTodo: function(index) {
+                    this.todos.splice(index, 1);
+
+                    view.render();
+                }         
+            };
+
+            // functions that handle events
+            var handlers = {
+                onAdd: function() {
+                    var $todoInput = $('#todoInput');
+                    var todoText = $todoInput.val();
+
+                    $todoInput.val('');
+                    todoList.addTodo(todoText);
+                },
+                onEnter: function() {
+                    if (event.which === 13) {
+                        handlers.onAdd();
+                    }
+                }
+            }
+
+            // showing stuff on the page
+            var view = {
+                render: function() {
+                    updateLocalStorage(todoList.todos);
+
+                    $('#todos').empty();
+
+                    todoList.todos.forEach(function(todo, index) {
+                        var $li = $('<li>');
+
+                        $li.addClass('todo');
+                        $li.attr('id', index);
+                        $li.append(todo.text);
+                        
+                        if (todo.completed) {
+                            $li.css('text-decoration', 'line-through');
+                        }
+
+                        $('#todos').append($li);
+                    });
+                    
+                    $('.todo').click(function(event) {
+                        var index = $(this).attr('id');
+                        
+                        todoList.toggleCompleted(index);
+                    });
+
+                },
+                initListeners: function() {
+                    $('#addBtn').click(handlers.onAdd);
+                    $(document).keypress(handlers.onEnter);
+                }
+            }
+
+            retrieveTodos();
+            view.render();
+            view.initListeners();
+        });
     </script>
 </body>
 </html>
